@@ -51,8 +51,11 @@ sub.use((req, res, next) => {
 });
 sub.use(express.static("frontend-sub"));
 
-app.use(vhost("*", main));
-app.use(vhost("*.*", sub));
+// app.use(vhost("*", main));
+// app.use(vhost("*.*", sub));
+
+app.use(vhost("*.*.*", main));
+app.use(vhost("*.*.*.*", sub));
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
