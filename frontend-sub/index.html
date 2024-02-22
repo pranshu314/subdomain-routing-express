@@ -8,5 +8,18 @@
   </head>
   <body>
     <div><h1>Subdomain Page</h1></div>
+    <script>
+      let subdomainUrl = window.location.href + "get-color";
+      async function getColor() {
+        response = await fetch(subdomainUrl, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        data = await response.json();
+        document.body.style.backgroundColor = data.color;
+      }
+      getColor();
+    </script>
   </body>
 </html>

@@ -8,19 +8,52 @@
   </head>
   <body>
     <h1>Main Page</h1>
-    <form>
-      <div class="form-field">
-        <span class="left">https://</span>
-        <input type="text" class="form-input" placeholder="custom-subdomain" />
-        <span class="right">.domain.com</span>
-      </div>
-      <div class="form-field">
-        <span class="left">Color</span>
-        <input type="color" value="#eef4ff" class="color" />
-      </div>
-      <center><button class="button">Submit</button></center>
-    </form>
+    <div class="form-field">
+      <span class="left">https://</span>
+      <input
+        type="text"
+        id="subdomain"
+        class="form-input"
+        placeholder="custom-subdomain"
+      />
+      <span class="right">.domain.com</span>
+    </div>
+    <div class="form-field">
+      <span class="left">Color</span>
+      <input type="color" id="color" value="#eef4ff" class="color" />
+    </div>
+    <center>
+      <button class="button" onclick="addNewSubdomain()">Submit</button>
+    </center>
 
-    <script src="main.js"></script>
+    <script>
+      async function addNewSubdomain() {
+        let subdomain = document.getElementById("subdomain").value;
+        let color = document.getElementById("color").value;
+        document.getElementById("subdomain").value = "";
+        document.getElementById("color").value = "#eef4ff";
+
+        if (subdomain === "" || color === "") {
+          alert("Please fill the values");
+          return;
+        }
+
+        let obj = {
+          subdomain: subdomain,
+          color: color,
+        };
+
+        response = await fetch(`http://localhost:5000/subdomain-create`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(obj),
+        });
+        if (response) {
+          alert("Added the requested subdomain");
+        }
+      }
+    </script>
   </body>
 </html>

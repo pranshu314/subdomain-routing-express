@@ -6,7 +6,11 @@ const port = 5000;
 let dict = [
   {
     subdomain: "example",
-    color: "Black",
+    color: "blue",
+  },
+  {
+    subdomain: "example2",
+    color: "red",
   },
 ];
 
@@ -15,19 +19,25 @@ app.use(express.json());
 const main = express.Router();
 const sub = express.Router();
 
-main.use(express.static("frontend-main"));
-main.post("/subdomain-create", (req, res, next) => {
+app.post("/subdomain-create", (req, res) => {
   let obj = {
     subdomain: req.body.subdomain,
     color: req.body.color,
   };
 
+  for (let i = 0; i < dict.length; i++) {
+    if (dict[i].subdomain === obj.subdomain) {
+      res.send("The given subdomain already exists");
+      return;
+    }
+  }
   dict.push(obj);
   res.send("Created a new subdomain entry");
 });
-main.get("/:subdomain", (req, res) => {
+main.use(express.static("frontend-main"));
+sub.get("/get-color", (req, res) => {
   for (let i = 0; i < dict.length; i++) {
-    if (dict[i].subdomain === req.params.subdomain) {
+    if (dict[i].subdomain === req.vhost[0]) {
       res.send({ color: dict[i].color });
       return;
     }
