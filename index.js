@@ -51,8 +51,8 @@ sub.use((req, res, next) => {
 });
 sub.use(express.static("frontend-sub"));
 
-app.use(vhost("localhost", main));
-app.use(vhost("*.localhost", sub));
+app.use(vhost("subdomain-routing-express.vercel.app", main));
+app.use(vhost("*.subdomain-routing-express.vercel.app", sub));
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
